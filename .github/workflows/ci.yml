@@ -26,7 +26,7 @@ jobs:
         run: task ci:compile
 
   xref:
-    name: Compile
+    name: Xref cyclical compile deps
     runs-on: ubuntu-latest
     env:
       MIX_ENV: test
