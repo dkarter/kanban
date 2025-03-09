@@ -21,7 +21,7 @@ provider "github" {
 resource "github_repository" "kanban" {
   name                   = local.repository_name
   description            = "Taking the BEAM to production pragmatically."
-  visibility             = "private"
+  visibility             = "public"
   has_issues             = true
   auto_init              = true
   gitignore_template     = "Terraform"
