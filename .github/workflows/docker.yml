@@ -8,6 +8,8 @@
     types:
       - completed
 
+name: Docker Image Build and Push
+
 jobs:
   build-push:
     name: Compile
@@ -37,7 +39,8 @@ jobs:
         with:
           images: |
             ghcr.io/dkarter/kanban
-          tags: type=raw,value=latest,enable={{is_default_branch}}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=pr
             type=sha,format=short
 
