@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Hex
         if: steps.cache-deps.outputs.cache-hit == 'true'
-        run: task hex:install
+        run: task ci:hex:install
 
       - name: Get Deps
         if: steps.cache-deps.outputs.cache-hit != 'true'
@@ -81,7 +81,7 @@ jobs:
 
       - name: Install Hex
         if: steps.cache-deps.outputs.cache-hit == 'true'
-        run: task hex:install
+        run: task ci:hex:install
 
       - name: Get Deps
         if: steps.cache-deps.outputs.cache-hit != 'true'
@@ -121,7 +121,7 @@ jobs:
 
       - name: Install Hex
         if: steps.cache-deps.outputs.cache-hit == 'true'
-        run: task hex:install
+        run: task ci:hex:install
 
       - name: Get Deps
         if: steps.cache-deps.outputs.cache-hit != 'true'
