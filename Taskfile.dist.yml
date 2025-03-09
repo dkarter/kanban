@@ -7,7 +7,15 @@ includes:
     taskfile: ./taskfiles/ci.yml
     dir: app
 
+  app:
+    taskfile: ./taskfiles/app.yml
+    dir: app
+
 tasks:
+  default:
+    cmd: task -l
+    silent: true
+
   gh:run:watch:
     desc: Watch latest run
     cmd: |
