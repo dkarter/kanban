@@ -30,6 +30,10 @@ tasks:
     desc: Downloads the Elixir dependencies
     cmd: mix deps.get
 
+  deps:check:unused:
+    desc: Checks if there are any unused dependencies
+    cmd: mix deps.unlock --check-unused
+
   format:check:
     desc: Runs the tests with fail-fast
     cmd: mix format --check-formatted
