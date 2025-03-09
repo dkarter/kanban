@@ -6,6 +6,22 @@ env:
   MIX_ENV: test
 
 tasks:
+  run:
+    desc: Runs the ci pipeline locally
+    # since this runs synchronously, it's best to order these by speed to get
+    # the best "fail-fast" experience
+    cmds:
+      - task: deps:get
+      - task: compile
+      - task: xref
+      - task: format:check
+      - task: test
+      - cmd: |
+          echo ---------------------- | lolcrab
+          echo Completed Successfully | lolcrab
+          echo ---------------------- | lolcrab
+        silent: true
+
   deps:get:
     desc: Downloads the Elixir dependencies
     cmd: mix deps.get
