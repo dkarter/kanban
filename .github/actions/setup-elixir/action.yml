@@ -7,6 +7,11 @@ inputs:
     description: Github Token to use for installing task (secrets.GITHUB_TOKEN should work)
     required: true
 
+  cache-version:
+    description: Cache busting mechanism
+    required: true
+    default: v1
+
 runs:
   using: 'composite'
   steps:
@@ -26,8 +31,8 @@ runs:
         path: |
           app/deps
           app/_build
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/app/mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
+        key: ${{ runner.os }}-${{ inputs.cache-version }}-mix-${{ hashFiles('**/app/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ inputs.cache-version }}-mix-
 
     - name: Install Hex
       shell: 'bash'
