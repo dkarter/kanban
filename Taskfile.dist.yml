@@ -41,3 +41,12 @@ tasks:
       )
       gh run view $last_run {{.CLI_ARGS}}
     silent: true
+
+  tf:apply:
+    desc: Apply Terraform changes
+    interactive: true
+    cmds:
+      - cmd: |
+          pushd ./modules/integrations/github/project_management && \
+          terraform apply; \
+          popd
