@@ -34,6 +34,7 @@ jobs:
           restore-keys: ${{ runner.os }}-mix-
 
       - name: Get Deps
+        if: steps.cache-deps.outputs.cache-hit != 'true'
         run: task ci:deps:get
 
       - name: Compile
