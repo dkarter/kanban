@@ -41,8 +41,10 @@ tasks:
     cmd: mix format --check-formatted
 
   hex:install:
-    desc: Force install hex
-    cmd: mix local.hex --force
+    desc: Force install hex and rebar
+    cmds:
+      - cmd: mix local.hex --force
+      - cmd: mix local.rebar --force
 
   lint:yaml:
     desc: Lint yaml files
