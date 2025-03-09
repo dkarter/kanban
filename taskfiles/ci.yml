@@ -7,7 +7,13 @@ env:
 
 tasks:
   deps:get:
+    desc: Downloads the Elixir dependencies
     cmd: mix deps.get
 
   compile:
+    desc: Compiles the Elixir project, and fails on warnings
     cmd: mix compile --warnings-as-errors
+
+  xref:
+    desc: Check for cyclical compile dependencies
+    cmd: mix xref graph --label compile-connected --fail-above 0

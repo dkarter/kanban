@@ -38,3 +38,6 @@ jobs:
 
       - name: Compile
         run: task ci:compile
+
+      - name: Xref cyclical compile deps
+        run: task ci:xref
