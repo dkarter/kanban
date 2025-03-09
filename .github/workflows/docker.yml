@@ -20,8 +20,6 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-    env:
-      MIX_ENV: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,7 +53,7 @@ jobs:
       - name: Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./app
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ steps.meta.outputs.tags }}
