@@ -60,11 +60,3 @@ jobs:
           platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-
-      - name: Setup Elixir
-        uses: ./.github/actions/setup-elixir
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Compile
-        run: task ci:compile
