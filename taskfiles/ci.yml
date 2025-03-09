@@ -12,9 +12,11 @@ tasks:
     # the best "fail-fast" experience
     cmds:
       - task: deps:get
+      - task: deps:check:unused
       - task: compile
       - task: xref
       - task: format:check
+      - task: lint:yaml
       - task: test
       - cmd: |
           echo ---------------------- | lolcrab
