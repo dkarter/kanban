@@ -17,6 +17,7 @@ tasks:
       - task: xref
       - task: format:check
       - task: lint:yaml
+      - task: lint:elixir
       - task: test
       - cmd: |
           echo ---------------------- | lolcrab
@@ -45,6 +46,10 @@ tasks:
     cmds:
       - cmd: mix local.hex --force
       - cmd: mix local.rebar --force
+
+  lint:elixir:
+    desc: Run credo to check for linting errors
+    cmd: mix credo --strict
 
   lint:yaml:
     desc: Lint yaml files

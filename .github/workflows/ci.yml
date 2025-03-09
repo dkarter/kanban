@@ -93,6 +93,21 @@ jobs:
       - name: Test
         run: task ci:deps:check:unused
 
+  lint-elixir:
+    name: Lint Elixir
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Elixir
+        uses: ./.github/actions/setup-elixir
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint
+        run: task ci:lint:elixir
+
   lint-yaml:
     name: Lint Yaml
     runs-on: ubuntu-latest
