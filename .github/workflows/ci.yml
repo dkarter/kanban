@@ -16,6 +16,9 @@ jobs:
 
       - name: Setup Task
         uses: arduino/setup-task@v2
+        with:
+          # prevent rate limits by github: https://github.com/arduino/setup-task#repo-token
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup runtime deps with mise
         uses: jdx/mise-action@v2
