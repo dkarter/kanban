@@ -32,14 +32,12 @@ defmodule Kanban.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.7.19"},
-      {:phoenix_html, "~> 4.1"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 1.0.0"},
-      {:floki, ">= 0.30.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:bandit, "~> 1.5"},
+      {:dns_cluster, "~> 0.2.0"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:finch, "~> 0.13"},
+      {:floki, ">= 0.30.0", only: :test},
+      {:gettext, "~> 0.26"},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.1.1",
@@ -47,14 +45,16 @@ defmodule Kanban.MixProject do
        app: false,
        compile: false,
        depth: 1},
-      {:swoosh, "~> 1.5"},
-      {:finch, "~> 0.13"},
-      {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.2.0"},
-      {:bandit, "~> 1.5"}
+      {:phoenix, "~> 1.7.19"},
+      {:phoenix_html, "~> 4.1"},
+      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_view, "~> 1.0.0"},
+      {:swoosh, "~> 1.5"},
+      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:telemetry_metrics, "~> 1.0"},
+      {:telemetry_poller, "~> 1.0"}
     ]
   end
 
