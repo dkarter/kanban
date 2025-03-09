@@ -17,3 +17,11 @@ tasks:
   xref:
     desc: Check for cyclical compile dependencies
     cmd: mix xref graph --label compile-connected --fail-above 0
+
+  test:
+    desc: Runs the tests with fail-fast
+    cmd: mix test --max-failures 1 --trace --warnings-as-errors
+
+  format:check:
+    desc: Runs the tests with fail-fast
+    cmd: mix format --check-formatted

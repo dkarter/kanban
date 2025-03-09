@@ -42,3 +42,78 @@ jobs:
 
       - name: Xref cyclical compile deps
         run: task ci:xref
+
+      - name: Test
+        run: task ci:test
+
+  # TODO: move similar steps to reusable actions
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Task
+        uses: arduino/setup-task@v2
+        with:
+          # prevent rate limits by github: https://github.com/arduino/setup-task#repo-token
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup runtime deps with mise
+        uses: jdx/mise-action@v2
+
+      - name: Cache deps/_build dirs
+        uses: actions/cache@v4
+        id: cache-deps
+        with:
+          path: |
+            app/deps
+            app/_build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/app/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+
+      - name: Get Deps
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: task ci:deps:get
+
+      - name: Test
+        run: task ci:test
+
+  # TODO: move similar steps to reusable actions
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Task
+        uses: arduino/setup-task@v2
+        with:
+          # prevent rate limits by github: https://github.com/arduino/setup-task#repo-token
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup runtime deps with mise
+        uses: jdx/mise-action@v2
+
+      - name: Cache deps/_build dirs
+        uses: actions/cache@v4
+        id: cache-deps
+        with:
+          path: |
+            app/deps
+            app/_build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/app/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+
+      - name: Get Deps
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: task ci:deps:get
+
+      - name: Test
+        run: task ci:format:check
