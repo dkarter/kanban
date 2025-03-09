@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+env:
+  MIX_ENV: test
+
+tasks:
+  deps:get:
+    cmd: mix deps.get
+
+  compile:
+    cmd: mix compile --warnings-as-errors
