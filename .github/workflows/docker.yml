@@ -3,7 +3,7 @@
 # use string key of `on` to avoid false positive from yamllint
 'on':
   workflow_run:
-    workflows: ['Run Tests']
+    workflows: ['CI']
     branches: [main]
     types:
       - completed
