@@ -141,32 +141,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Task
-        uses: arduino/setup-task@v2
+      - name: Setup Elixir
+        uses: dkarter/kanban/.github/actions/setup-elixir.yml@main
         with:
-          # prevent rate limits by github: https://github.com/arduino/setup-task#repo-token
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup runtime deps with mise
-        uses: jdx/mise-action@v2
-
-      - name: Cache deps/_build dirs
-        uses: actions/cache@v4
-        id: cache-deps
-        with:
-          path: |
-            app/deps
-            app/_build
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/app/mix.lock') }}
-          restore-keys: ${{ runner.os }}-mix-
-
-      - name: Install Hex
-        if: steps.cache-deps.outputs.cache-hit == 'true'
-        run: task ci:hex:install
-
-      - name: Get Deps
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: task ci:deps:get
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test
         run: task ci:deps:check:unused
