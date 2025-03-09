@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-on:
+# use string key of `on` to avoid false positive from yamllint
+'on':
   push:
     branches: [main]
   pull_request:

@@ -46,7 +46,7 @@ tasks:
     desc: Lint yaml files
     # force root dir
     dir: ../
-    cmd: yamllint . .github/**/*.yml {{.CLI_ARGS}}
+    cmd: yamllint . {{.CLI_ARGS}}
 
   test:
     desc: Runs the tests with fail-fast

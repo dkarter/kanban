@@ -19,13 +19,25 @@ tasks:
   gh:run:watch:
     desc: Watch latest run
     cmd: |
-      last_run=$(gh run list --workflow 'ci.yml' --limit 1 --json databaseId | jq -r '.[0].databaseId')
+      last_run=$(\
+        gh run list \
+        --workflow 'ci.yml' \
+        --limit 1 \
+        --json databaseId \
+        | jq -r '.[0].databaseId' \
+      )
       gh run watch $last_run
     silent: true
 
   gh:run:view:
     desc: View latest run
     cmd: |
-      last_run=$(gh run list --workflow 'ci.yml' --limit 1 --json databaseId | jq -r '.[0].databaseId')
+      last_run=$(\
+        gh run list \
+        --workflow 'ci.yml' \
+        --limit 1 \
+        --json databaseId \
+        | jq -r '.[0].databaseId' \
+      )
       gh run view $last_run
     silent: true
