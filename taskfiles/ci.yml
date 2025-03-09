@@ -22,26 +22,26 @@ tasks:
           echo ---------------------- | lolcrab
         silent: true
 
+  compile:
+    desc: Compiles the Elixir project, and fails on warnings
+    cmd: mix compile --warnings-as-errors
+
   deps:get:
     desc: Downloads the Elixir dependencies
     cmd: mix deps.get
 
-  compile:
-    desc: Compiles the Elixir project, and fails on warnings
-    cmd: mix compile --warnings-as-errors
+  format:check:
+    desc: Runs the tests with fail-fast
+    cmd: mix format --check-formatted
 
   hex:install:
     desc: Force install hex
     cmd: mix local.hex --force
 
-  xref:
-    desc: Check for cyclical compile dependencies
-    cmd: mix xref graph --label compile-connected --fail-above 0
-
   test:
     desc: Runs the tests with fail-fast
     cmd: mix test --max-failures 1 --trace --warnings-as-errors
 
-  format:check:
-    desc: Runs the tests with fail-fast
-    cmd: mix format --check-formatted
+  xref:
+    desc: Check for cyclical compile dependencies
+    cmd: mix xref graph --label compile-connected --fail-above 0
