@@ -39,5 +39,5 @@ tasks:
         --json databaseId \
         | jq -r '.[0].databaseId' \
       )
-      gh run view $last_run
+      gh run view $last_run {{.CLI_ARGS}}
     silent: true
