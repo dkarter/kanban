@@ -42,6 +42,12 @@ tasks:
     desc: Force install hex
     cmd: mix local.hex --force
 
+  lint:yaml:
+    desc: Lint yaml files
+    # force root dir
+    dir: ../
+    cmd: yamllint . .github/**/*.yml {{.CLI_ARGS}}
+
   test:
     desc: Runs the tests with fail-fast
     cmd: mix test --max-failures 1 --trace --warnings-as-errors
