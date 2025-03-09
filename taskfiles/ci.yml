@@ -30,6 +30,10 @@ tasks:
     desc: Compiles the Elixir project, and fails on warnings
     cmd: mix compile --warnings-as-errors
 
+  hex:install:
+    desc: Force install hex
+    cmd: mix local.hex --force
+
   xref:
     desc: Check for cyclical compile dependencies
     cmd: mix xref graph --label compile-connected --fail-above 0

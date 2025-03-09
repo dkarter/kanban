@@ -33,6 +33,10 @@ jobs:
           key: ${{ runner.os }}-mix-${{ hashFiles('**/app/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
 
+      - name: Install Hex
+        if: steps.cache-deps.outputs.cache-hit == 'true'
+        run: task hex:install
+
       - name: Get Deps
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: task ci:deps:get
@@ -75,6 +79,10 @@ jobs:
           key: ${{ runner.os }}-mix-${{ hashFiles('**/app/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
 
+      - name: Install Hex
+        if: steps.cache-deps.outputs.cache-hit == 'true'
+        run: task hex:install
+
       - name: Get Deps
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: task ci:deps:get
@@ -110,6 +118,10 @@ jobs:
             app/_build
           key: ${{ runner.os }}-mix-${{ hashFiles('**/app/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
+
+      - name: Install Hex
+        if: steps.cache-deps.outputs.cache-hit == 'true'
+        run: task hex:install
 
       - name: Get Deps
         if: steps.cache-deps.outputs.cache-hit != 'true'
