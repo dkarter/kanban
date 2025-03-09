@@ -5,7 +5,6 @@ description: Sets up Elixir, Erlang and all Deps, Including Cache
 inputs:
   github-token:
     description: Github Token to use for installing task (secrets.GITHUB_TOKEN should work)
-    default: ${{ secrets.GITHUB_TOKEN }}
     required: true
 
 runs:
