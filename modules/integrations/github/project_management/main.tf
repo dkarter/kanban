@@ -39,6 +39,10 @@ resource "github_branch_protection" "main" {
   allows_deletions                = false
   require_conversation_resolution = true
   required_status_checks {
+    # require branches to be up to date before merging
+    strict = true
+
+    # actions to require to pass for merging
     contexts = [
       "Compile",
       "Xref cyclical compile deps",
