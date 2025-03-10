@@ -1,6 +1,6 @@
 [tools]
 awscli = "2"
-erlang = "27.2.4"
+erlang = "27.3"
 terraform = "1"
 github-cli = "latest"
 elixir = "1.18.3-otp-27"
