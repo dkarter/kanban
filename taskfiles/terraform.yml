@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+tasks:
+  apply:
+    desc: Apply Terraform changes
+    interactive: true
+    cmds:
+      - cmd: |
+          pushd ./modules/integrations/github/project_management && \
+          terraform apply; \
+          popd

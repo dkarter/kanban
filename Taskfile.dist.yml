@@ -3,13 +3,17 @@
 version: 3
 
 includes:
+  app:
+    taskfile: ./taskfiles/app.yml
+    dir: app
+
   ci:
     taskfile: ./taskfiles/ci.yml
     dir: app
 
-  app:
-    taskfile: ./taskfiles/app.yml
-    dir: app
+  tf:
+    aliases: [terraform]
+    taskfile: ./taskfiles/terraform.yml
 
 tasks:
   default:
@@ -41,12 +45,3 @@ tasks:
       )
       gh run view $last_run {{.CLI_ARGS}}
     silent: true
-
-  tf:apply:
-    desc: Apply Terraform changes
-    interactive: true
-    cmds:
-      - cmd: |
-          pushd ./modules/integrations/github/project_management && \
-          terraform apply; \
-          popd
