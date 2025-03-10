@@ -29,6 +29,27 @@ resource "github_repository" "kanban" {
   allow_auto_merge       = true
 }
 
+resource "github_branch_protection" "main" {
+  depends_on                      = [github_repository.kanban]
+  repository_id                   = github_repository.kanban.id
+  pattern                         = "main"
+  allows_force_pushes             = false
+  require_signed_commits          = true
+  required_linear_history         = true
+  allows_deletions                = false
+  require_conversation_resolution = true
+  required_status_checks {
+    contexts = [
+      "Compile",
+      "Xref cyclical compile deps",
+      "Test",
+      "Format",
+      "Check for unused deps",
+      "Lint Elixir",
+      "Lint Yaml",
+    ]
+  }
+}
 
 variable "milestones" {
   type = map(object({
