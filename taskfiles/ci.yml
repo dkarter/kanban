@@ -24,6 +24,7 @@ tasks:
           echo Completed Successfully | lolcrab
           echo ---------------------- | lolcrab
         silent: true
+      - cmd: echo hi
 
   compile:
     desc: Compiles the Elixir project, and fails on warnings
