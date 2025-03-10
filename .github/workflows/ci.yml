@@ -10,23 +10,6 @@
 name: CI
 
 jobs:
-  compile:
-    name: Compile
-    runs-on: ubuntu-latest
-    env:
-      MIX_ENV: test
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Elixir
-        uses: ./.github/actions/setup-elixir
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Compile
-        run: task ci:compile
-
   xref:
     name: Xref cyclical compile deps
     runs-on: ubuntu-latest
@@ -40,6 +23,12 @@ jobs:
         uses: ./.github/actions/setup-elixir
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: check cache
+        run: |
+          ls -lah
+          ls -lah ./app/deps;
+          ls -lah ./app/_build;
 
       - name: Xref cyclical compile deps
         run: task ci:xref

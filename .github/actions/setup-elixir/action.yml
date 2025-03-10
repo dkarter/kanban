@@ -28,6 +28,13 @@ runs:
         key: ${{ runner.os }}-${{ inputs.cache-version }}-mix-${{ hashFiles('**/app/mix.lock') }}
         restore-keys: ${{ runner.os }}-${{ inputs.cache-version }}-mix-
 
+    - name: check cache
+      shell: bash
+      run: |
+        ls -lah
+        ls -lah ./app/deps;
+        # ls -lah ./app/_build;
+
     - name: Install Hex
       shell: 'bash'
       if: steps.cache-deps.outputs.cache-hit == 'true'
@@ -37,3 +44,7 @@ runs:
       shell: 'bash'
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: task ci:deps:get
+
+    - name: Compile
+      shell: bash
+      run: task ci:compile
