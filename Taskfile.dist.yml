@@ -11,6 +11,10 @@ includes:
     taskfile: ./taskfiles/ci.yml
     dir: app
 
+  gh:
+    aliases: [github]
+    taskfile: ./taskfiles/github.yml
+
   tf:
     aliases: [terraform]
     taskfile: ./taskfiles/terraform.yml
@@ -18,30 +22,4 @@ includes:
 tasks:
   default:
     cmd: task -l
-    silent: true
-
-  gh:run:watch:
-    desc: Watch latest run
-    cmd: |
-      last_run=$(\
-        gh run list \
-        --workflow 'ci.yml' \
-        --limit 1 \
-        --json databaseId \
-        | jq -r '.[0].databaseId' \
-      )
-      gh run watch $last_run
-    silent: true
-
-  gh:run:view:
-    desc: View latest run
-    cmd: |
-      last_run=$(\
-        gh run list \
-        --workflow 'ci.yml' \
-        --limit 1 \
-        --json databaseId \
-        | jq -r '.[0].databaseId' \
-      )
-      gh run view $last_run {{.CLI_ARGS}}
     silent: true
