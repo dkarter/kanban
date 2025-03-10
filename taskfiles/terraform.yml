@@ -3,6 +3,14 @@
 version: 3
 
 tasks:
+  init:
+    desc: Initializes and upgrades terraform
+    cmds:
+      - cmd: |
+          pushd ./modules/integrations/github/project_management && \
+          terraform init -upgrade; \
+          popd
+
   apply:
     desc: Apply Terraform changes
     interactive: true
