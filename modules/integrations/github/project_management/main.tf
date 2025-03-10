@@ -26,6 +26,7 @@ resource "github_repository" "kanban" {
   auto_init              = true
   gitignore_template     = "Terraform"
   delete_branch_on_merge = true
+  allow_auto_merge       = true
 }
 
 
