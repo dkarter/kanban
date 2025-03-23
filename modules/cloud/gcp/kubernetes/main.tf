@@ -33,7 +33,8 @@ provider "google-beta" {
 # GKE cluster
 resource "google_container_cluster" "primary" {
   name     = local.cluster_name
-  location = local.region
+  # Change to zonal cluster to reduce resource requirements
+  location = "${local.region}-a"  # Using a single zone instead of regional
   
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
@@ -49,12 +50,6 @@ resource "google_container_cluster" "primary" {
     workload_pool = "${local.project_id}.svc.id.goog"
   }
 
-  # Enable network policy (Calico)
-  network_policy {
-    enabled  = true
-    provider = "CALICO"
-  }
-
   # Enable IP allocation policy for VPC-native cluster
   ip_allocation_policy {
     # Use default auto-allocation
@@ -67,9 +62,9 @@ resource "google_container_cluster" "primary" {
     master_ipv4_cidr_block  = var.private_cluster ? "172.16.0.0/28" : null
   }
 
-  # Stability and security settings
+  # Use STABLE channel for more conservative updates and resource usage
   release_channel {
-    channel = "REGULAR"
+    channel = "STABLE"
   }
 
   maintenance_policy {
@@ -82,7 +77,7 @@ resource "google_container_cluster" "primary" {
 # Separately Managed Node Pool
 resource "google_container_node_pool" "primary_nodes" {
   name       = "${local.cluster_name}-node-pool"
-  location   = local.region
+  location   = "${local.region}-a"  # Must match the cluster's location
   cluster    = google_container_cluster.primary.name
   node_count = var.node_count
 
@@ -99,7 +94,7 @@ resource "google_container_node_pool" "primary_nodes" {
 
     machine_type = var.machine_type
     disk_size_gb = var.disk_size_gb
-    disk_type    = "pd-standard"
+    disk_type    = "pd-standard"  # Explicitly using standard persistent disk
     
     # Use Container-Optimized OS
     image_type = "COS_CONTAINERD"
@@ -107,11 +102,6 @@ resource "google_container_node_pool" "primary_nodes" {
     # Enable Workload Identity on the nodes
     workload_metadata_config {
       mode = "GKE_METADATA"
-    }
-
-    # Enable secure boot for increased security
-    shielded_instance_config {
-      enable_secure_boot = true
     }
   }
 

@@ -1,15 +1,15 @@
 # GCP Kubernetes (GKE) Module
 
-This module creates a standard Google Kubernetes Engine (GKE) cluster for the Kanban application.
+This module creates a cost-efficient Google Kubernetes Engine (GKE) cluster for the Kanban application.
 
 ## Features
 
-- Regional GKE cluster for high availability
-- Separately managed node pool with autoscaling
+- Zonal GKE cluster for cost-efficiency (single zone deployment)
+- Separately managed node pool with minimal resources
 - Workload Identity enabled for secure GCP service access
 - Private cluster option for enhanced security
-- Network policy enabled (Calico)
-- Regular release channel for stable updates
+- Standard persistent disks to avoid SSD quota limitations
+- Stable release channel for conservative, reliable updates
 - Maintenance window configured for minimal disruption
 
 ## Usage
@@ -20,19 +20,17 @@ module "gke_cluster" {
 
   project_id   = "your-gcp-project-id"
   cluster_name = "kanban-cluster"
-  region       = "us-central1"
+  region       = "us-central1"  # Will create a cluster in us-central1-a zone
   
   # Optional parameters (defaults shown)
   # network            = "default"
   # subnetwork         = "default"
   # private_cluster    = true
-  # node_count         = 2
-  # machine_type       = "e2-standard-2"
-  # disk_size_gb       = 100
-  # environment        = "production"
-  # enable_autoscaling = true
-  # min_node_count     = 1
-  # max_node_count     = 5
+  # node_count         = 1
+  # machine_type       = "e2-small"
+  # disk_size_gb       = 20
+  # environment        = "prod"
+  # enable_autoscaling = false
 }
 ```
 
@@ -50,7 +48,7 @@ module "gke_cluster" {
 After the cluster is created, you can configure kubectl to access it:
 
 ```bash
-gcloud container clusters get-credentials kanban-cluster --region us-central1 --project your-gcp-project-id
+gcloud container clusters get-credentials kanban-cluster --zone us-central1-a --project your-gcp-project-id
 ```
 
 ## Outputs
