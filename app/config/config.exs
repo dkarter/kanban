@@ -8,6 +8,7 @@
 import Config
 
 config :kanban,
+  ecto_repos: [Kanban.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
