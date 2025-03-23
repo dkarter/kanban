@@ -15,6 +15,10 @@ includes:
     taskfile: ./taskfiles/docker.yml
     dir: app
 
+  gcp:
+    taskfile: ./taskfiles/gcp.yml
+    dir: modules/cloud/gcp
+
   gh:
     aliases: [github]
     taskfile: ./taskfiles/github.yml

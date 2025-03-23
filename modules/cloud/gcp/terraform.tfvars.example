@@ -1,0 +1,12 @@
+# GCP Project Configuration
+project_id = "your-gcp-project-id"
+region     = "us-central1"
+
+# Cluster Configuration
+cluster_name = "kanban-cluster"
+environment  = "prod"
+
+# Cost-efficient settings
+machine_type  = "e2-small"
+node_count    = 1
+disk_size_gb  = 20
