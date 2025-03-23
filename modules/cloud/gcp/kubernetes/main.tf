@@ -32,15 +32,19 @@ provider "google-beta" {
 
 # GKE cluster
 resource "google_container_cluster" "primary" {
-  name     = local.cluster_name
+  name = local.cluster_name
   # Change to zonal cluster to reduce resource requirements
-  location = "${local.region}-a"  # Using a single zone instead of regional
-  
+  location = "${local.region}-a" # Using a single zone instead of regional
+
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
   # node pool and immediately delete it.
   remove_default_node_pool = true
   initial_node_count       = 1
+
+  # this should be commented out after I'm done with the CREATE-DESTROY-IMPROVE
+  # cycle
+  # deletion_protection = false
 
   network    = local.network
   subnetwork = local.subnetwork
@@ -69,7 +73,7 @@ resource "google_container_cluster" "primary" {
 
   maintenance_policy {
     daily_maintenance_window {
-      start_time = "03:00"  # 3 AM
+      start_time = "03:00" # 3 AM
     }
   }
 }
@@ -77,7 +81,7 @@ resource "google_container_cluster" "primary" {
 # Separately Managed Node Pool
 resource "google_container_node_pool" "primary_nodes" {
   name       = "${local.cluster_name}-node-pool"
-  location   = "${local.region}-a"  # Must match the cluster's location
+  location   = "${local.region}-a" # Must match the cluster's location
   cluster    = google_container_cluster.primary.name
   node_count = var.node_count
 
@@ -94,8 +98,8 @@ resource "google_container_node_pool" "primary_nodes" {
 
     machine_type = var.machine_type
     disk_size_gb = var.disk_size_gb
-    disk_type    = "pd-standard"  # Explicitly using standard persistent disk
-    
+    disk_type    = "pd-standard" # Explicitly using standard persistent disk
+
     # Use Container-Optimized OS
     image_type = "COS_CONTAINERD"
 
@@ -120,3 +124,4 @@ resource "google_container_node_pool" "primary_nodes" {
     auto_upgrade = true
   }
 }
+
