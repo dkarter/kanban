@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json
+
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./.postgres/pgdata:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT:-5432}
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # this is for swarm - probably unnecessary for my k8s setup
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  web:
+    profiles: [web]
+    depends_on: [db]
+    image: ${WEB_IMAGE:-kanban:latest}
+    environment:
+      PHX_HOST: localhost
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/kanban_dev
+      SECRET_KEY_BASE: Ng5rYHt4NmDrgPma3tFFROReSeahKjoFFvc3qOzVmgXIZ8zWGfMv/YTA8l1q+jNN
+    ports:
+      - '4000:4000'
+    # this is for swarm - probably unnecessary for my k8s setup
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s

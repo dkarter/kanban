@@ -11,6 +11,10 @@ includes:
     taskfile: ./taskfiles/ci.yml
     dir: app
 
+  docker:
+    taskfile: ./taskfiles/docker.yml
+    dir: app
+
   gh:
     aliases: [github]
     taskfile: ./taskfiles/github.yml

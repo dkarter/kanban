@@ -2,7 +2,15 @@
 
 version: 3
 
+# these tasks are not run in CI, so they should all have MIX_ENV=dev
+env:
+  MIX_ENV: dev
+
 tasks:
+  setup:
+    desc: Runs mix setup in the app dir
+    cmd: mix setup
+
   deps:get:
     desc: Downloads the Elixir dependencies
     cmd: mix deps.get
