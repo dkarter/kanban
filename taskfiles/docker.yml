@@ -13,6 +13,21 @@ tasks:
     desc: Builds the docker image
     cmd: docker build --tag {{.APP}}:latest .
 
+  compose:up:
+    desc: Runs docker compose up without the web
+    dir: ../
+    cmd: docker compose up
+
+  compose:web:up:
+    desc: Runs docker compose up with the web using local image
+    dir: ../
+    cmd: docker compose --profile web up
+
+  compose:web:remote:up:
+    desc: Runs docker compose up with the web using local image
+    dir: ../
+    cmd: WEB_IMAGE=ghcr.io/dkarter/kanban:latest docker compose --profile web up
+
   exec:bash:
     desc: Shells into the docker image
     cmd: docker exec -it {{.APP}} bash
