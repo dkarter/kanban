@@ -21,7 +21,7 @@ module "gke_cluster" {
   project_id   = "your-gcp-project-id"
   cluster_name = "kanban-cluster"
   region       = "us-central1"  # Will create a cluster in us-central1-a zone
-  
+
   # Optional parameters (defaults shown)
   # network            = "default"
   # subnetwork         = "default"
@@ -48,16 +48,17 @@ module "gke_cluster" {
 After the cluster is created, you can configure kubectl to access it:
 
 ```bash
-gcloud container clusters get-credentials kanban-cluster --zone us-central1-a --project your-gcp-project-id
+task gcp:kubeconfig:generate
 ```
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| cluster_id | The ID of the created GKE cluster |
-| cluster_name | The name of the created GKE cluster |
-| cluster_endpoint | The endpoint for the GKE cluster API server |
+| Name                   | Description                                     |
+| ---------------------- | ----------------------------------------------- |
+| cluster_id             | The ID of the created GKE cluster               |
+| cluster_name           | The name of the created GKE cluster             |
+| cluster_endpoint       | The endpoint for the GKE cluster API server     |
 | cluster_ca_certificate | The public certificate authority of the cluster |
-| node_pool_id | The ID of the created node pool |
-| region | The region of the GKE cluster |
+| node_pool_id           | The ID of the created node pool                 |
+| region                 | The region of the GKE cluster                   |
+
