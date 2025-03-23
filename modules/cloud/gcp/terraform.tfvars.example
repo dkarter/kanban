@@ -10,3 +10,16 @@ environment  = "prod"
 machine_type  = "e2-small"
 node_count    = 1
 disk_size_gb  = 20
+
+# Argo CD Configuration
+deploy_argocd        = true
+argocd_namespace     = "argocd"
+argocd_chart_version = "5.51.4"
+argocd_expose_ui     = false  # Set to true to expose using LoadBalancer
+
+# Optional: Additional Helm values for Argo CD
+# argocd_additional_values = <<-EOT
+#   server:
+#     extraArgs:
+#       - --disable-auth
+# EOT
