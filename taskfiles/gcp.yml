@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+env:
+  GCP_PROJECT_ID: groovy-catalyst-454603-s7
+  GCP_ZONE: us-central1-a
+
+tasks:
+  auth:
+    desc: Authenticate with Google Cloud Platform
+    cmd: gcloud auth application-default login
+
+  install:components:
+    desc: Install required components via gcloud
+    cmd: gcloud components install gke-gcloud-auth-plugin
+
+  kubeconfig:generate:
+    desc: Get cluster credentials for kubectl
+    cmd: gcloud container clusters get-credentials kanban-cluster --zone {{.GCP_ZONE}} --project {{.GCP_PROJECT_ID}}
+
+  services:enable:
+    desc: Enables required services
+    cmd: gcloud services enable container.googleapis.com compute.googleapis.com iam.googleapis.com
+
+  tf:init:
+    desc: Installs terraform deps for GCP module
+    cmd: terraform init
+
+  tf:plan:
+    desc: Shows the terraform plan for GCP
+    cmd: terraform plan
+
+  tf:apply:
+    desc: Applies the terraform plan for GCP
+    cmd: terraform apply
