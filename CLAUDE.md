@@ -30,5 +30,7 @@
 - **Types**: Leverage typespecs for function definitions
 - **Context Organization**: Follow Phoenix contexts pattern for business logic
 - **Testing**: Test public API of modules, not implementation details
-- **Git**: Make small atomic commits at each logical chunk of functionality, and use feature branches. Commits should follow conventional commits.
-
+- **Git**:
+  - Make small atomic commits at each logical chunk of functionality
+  - Use feature branches and generate draft pull requests using `gh`
+  - Commits should follow conventional commits and be up to 70 characters in total
