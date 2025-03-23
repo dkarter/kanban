@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 5.51.4  # Match your bootstrap version
+    targetRevision: 7.8.13
     chart: argo-cd
     helm:
       values: |
@@ -22,7 +22,7 @@ spec:
             runAsUser: 999
           extraArgs:
             - --insecure
-          
+
           createSecret: true
           ingress:
             enabled: false
@@ -74,3 +74,4 @@ spec:
     automated:
       prune: true
       selfHeal: true
+
