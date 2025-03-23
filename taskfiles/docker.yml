@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+env:
+  MIX_ENV: test
+
+vars:
+  APP: kanban
+
+tasks:
+  build:
+    desc: Builds the docker image
+    cmd: docker build --tag {{.APP}}:latest .
+
+  exec:bash:
+    desc: Shells into the docker image
+    cmd: docker exec -it {{.APP}} bash
+
+  exec:iex:
+    desc: Shells into iex in the docker image
+    cmd: docker exec -it {{.APP}} bin/{{.APP}} remote
+
+  run:
+    desc: Runs the app in the image
+    env:
+      SECRET_KEY_BASE:
+        sh: mix phx.gen.secret
+      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5432/{{.APP}}_dev
+    cmd: docker run --rm --name {{.APP}} -p 4000:4000 -e SECRET_KEY_BASE -e DATABASE_URL {{.APP}}:latest
