@@ -24,9 +24,6 @@ services:
     profiles: [web]
     depends_on: [db]
     image: ${WEB_IMAGE:-kanban:latest}
-    # override start script so we can run migrations
-    command: >
-      bash -c 'bin/migrate && bin/server'
     environment:
       PHX_HOST: localhost
       DATABASE_URL: postgresql://postgres:postgres@db:5432/kanban_dev
