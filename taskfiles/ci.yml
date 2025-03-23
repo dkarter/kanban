@@ -59,7 +59,7 @@ tasks:
 
   test:
     desc: Runs the tests with fail-fast
-    cmd: mix test --max-failures 1 --trace --warnings-as-errors
+    cmd: mix test --max-failures 1 --warnings-as-errors
 
   xref:
     desc: Check for cyclical compile dependencies
