@@ -15,6 +15,12 @@ variable "cluster_name" {
   default     = "kanban-cluster"
 }
 
+variable "disk_size_gb" {
+  description = "Size of the disk attached to each node"
+  type        = number
+  default     = 20
+}
+
 variable "environment" {
   description = "The environment (e.g., dev, staging, prod)"
   type        = string
@@ -56,3 +62,4 @@ variable "subnetwork" {
   type        = string
   default     = "default"
 }
+

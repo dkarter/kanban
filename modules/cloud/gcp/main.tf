@@ -34,15 +34,17 @@ module "kanban_k8s_cluster" {
   project_id   = local.project_id
   cluster_name = var.cluster_name
   region       = local.region
-  
+
   # Use environment-specific settings
   environment        = var.environment
   private_cluster    = var.private_cluster
   enable_autoscaling = var.enable_autoscaling
   node_count         = var.node_count
   machine_type       = var.machine_type
-  
+  disk_size_gb       = var.disk_size_gb
+
   # If we have a custom VPC, use it
   network    = var.network
   subnetwork = var.subnetwork
 }
+
