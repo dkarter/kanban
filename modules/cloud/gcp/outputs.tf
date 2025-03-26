@@ -24,3 +24,19 @@ output "region" {
   description = "The region of the GKE cluster"
   value       = module.kanban_k8s_cluster.region
 }
+
+# ArgoCD outputs (only present if ArgoCD is deployed)
+output "argocd_namespace" {
+  description = "The namespace where Argo CD is deployed"
+  value       = var.deploy_argocd ? module.argocd[0].namespace : null
+}
+
+output "argocd_admin_password_command" {
+  description = "Command to retrieve the Argo CD admin password"
+  value       = var.deploy_argocd ? module.argocd[0].admin_password_command : null
+}
+
+output "argocd_port_forward_command" {
+  description = "Command to port forward the Argo CD UI"
+  value       = var.deploy_argocd ? module.argocd[0].port_forward_command : null
+}

@@ -14,6 +14,14 @@ terraform {
       source  = "hashicorp/google-beta"
       version = "~> 6.27.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.26.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12.0"
+    }
   }
 }
 
@@ -46,5 +54,40 @@ module "kanban_k8s_cluster" {
   # If we have a custom VPC, use it
   network    = var.network
   subnetwork = var.subnetwork
+}
+
+# Configure Kubernetes provider to connect to our cluster
+data "google_client_config" "default" {}
+
+provider "kubernetes" {
+  host                   = "https://${module.kanban_k8s_cluster.cluster_endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.kanban_k8s_cluster.cluster_ca_certificate)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = "https://${module.kanban_k8s_cluster.cluster_endpoint}"
+    token                  = data.google_client_config.default.access_token
+    cluster_ca_certificate = base64decode(module.kanban_k8s_cluster.cluster_ca_certificate)
+  }
+}
+
+# Deploy Argo CD (bootstrap only - Argo CD will manage itself after initial deployment)
+module "argocd" {
+  count  = var.deploy_argocd ? 1 : 0
+  source = "./kubernetes/argocd"
+
+  # Use the values defined in variables
+  namespace     = var.argocd_namespace
+  chart_version = var.argocd_chart_version
+  expose_ui     = var.argocd_expose_ui
+  
+  # Optional additional values
+  additional_values = var.argocd_additional_values
+
+  depends_on = [
+    module.kanban_k8s_cluster
+  ]
 }
 

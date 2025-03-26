@@ -1,0 +1,74 @@
+## Default values for Argo CD that balance security and simplicity
+## These values can be overridden by setting values_file or additional_values
+
+global:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 999
+
+## Server settings
+server:
+  # Extra hardening
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 999
+  # Don't create admin password - we'll use argocd CLI to set it after deployment
+  extraArgs:
+    - --insecure # Disabled HTTPS - assuming we'll use an ingress controller with TLS
+  
+  # Auto-generate initial admin password and store it as a Kubernetes secret
+  # You can retrieve it via: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+  createSecret: true
+
+  # No ingress by default - we'll configure this as part of GitOps
+  ingress:
+    enabled: false
+
+  # Resource limits - keeping them modest for cost-efficiency
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+## Repo server settings
+repoServer:
+  # Resource limits - keeping them modest for cost-efficiency
+  resources:
+    limits:
+      cpu: 100m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+## Application controller settings
+controller:
+  # Resource limits - keeping them modest for cost-efficiency
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+
+## Redis - internal simple setup without persistence
+redis:
+  resources:
+    limits:
+      cpu: 50m
+      memory: 64Mi
+    requests:
+      cpu: 25m
+      memory: 32Mi
+
+## Disable DEX by default - we can enable later if needed
+dex:
+  enabled: false
+
+## Disable notifications by default - simpler initial setup
+notifications:
+  enabled: false

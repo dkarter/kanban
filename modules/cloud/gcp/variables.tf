@@ -63,3 +63,34 @@ variable "subnetwork" {
   default     = "default"
 }
 
+# ArgoCD Variables
+variable "deploy_argocd" {
+  description = "Whether to deploy Argo CD"
+  type        = bool
+  default     = true
+}
+
+variable "argocd_namespace" {
+  description = "Kubernetes namespace for Argo CD"
+  type        = string
+  default     = "argocd"
+}
+
+variable "argocd_chart_version" {
+  description = "Argo CD Helm chart version"
+  type        = string
+  default     = "5.51.4"
+}
+
+variable "argocd_expose_ui" {
+  description = "Whether to expose Argo CD UI with LoadBalancer"
+  type        = bool
+  default     = false
+}
+
+variable "argocd_additional_values" {
+  description = "Additional values in YAML format for the Argo CD Helm chart"
+  type        = string
+  default     = ""
+}
+
