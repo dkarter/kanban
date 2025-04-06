@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+tasks:
+  argocd:init:
+    desc: Initializes the initial install of ArgoCD
+    cmds:
+      - cmd: kubectl create namespace argocd
+      - cmd: kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+  pod:watch:
+    desc: Watch pods
+    cmd: watch kubectl get pods {{.CLI_ARGS}}
