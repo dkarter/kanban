@@ -55,11 +55,12 @@ resource "helm_release" "argocd" {
 
   # CRITICAL: Prevent Terraform from managing Argo CD after initial deployment
   # This enables Argo CD to self-manage through GitOps
-  lifecycle {
-    ignore_changes = all
-  }
+  # lifecycle {
+  #   ignore_changes = all
+  # }
 
   depends_on = [
     kubernetes_namespace.argocd
   ]
 }
+
