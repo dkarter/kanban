@@ -72,22 +72,3 @@ provider "helm" {
     cluster_ca_certificate = base64decode(module.kanban_k8s_cluster.cluster_ca_certificate)
   }
 }
-
-# Deploy Argo CD (bootstrap only - Argo CD will manage itself after initial deployment)
-module "argocd" {
-  count  = var.deploy_argocd ? 1 : 0
-  source = "./kubernetes/argocd"
-
-  # Use the values defined in variables
-  namespace     = var.argocd_namespace
-  chart_version = var.argocd_chart_version
-  expose_ui     = var.argocd_expose_ui
-  
-  # Optional additional values
-  additional_values = var.argocd_additional_values
-
-  depends_on = [
-    module.kanban_k8s_cluster
-  ]
-}
-
