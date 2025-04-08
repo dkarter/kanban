@@ -2,6 +2,9 @@
 
 version: 3
 
+vars:
+  GIT_REPO: git@github.com:dkarter/kanban.git
+
 tasks:
   argocd:port-forward:
     summary: Port forwards localhost:8080 to ArgoCD's UI
@@ -15,12 +18,26 @@ tasks:
 
   argocd:init:login:
     summary: Logs in the CLI through local port forward
-    cmd: argocd login localhost:8080 --insecure --username "admin" --password "$(task kube:argocd:init:password)"
+    cmd: |
+      argocd login \
+        localhost:8080 \
+        --insecure \
+        --username "admin" \
+        --password "$(task kube:argocd:init:password)"
+        # --port-forward 8080:80 \
+        # --port-forward-namespace argocd
     silent: true
 
   argocd:init:add-repo:
     summary: Adds the github repo to argo
-    cmd: argocd repo add https://github.com/dkarter/kanban
+    cmd: |
+      argocd repo add \
+        '{{.GIT_REPO}}' \
+        --name kanban \
+        --upsert
+        # --insecure \
+        # --port-forward 8080:80 \
+        # --port-forward-namespace argocd
     silent: true
 
   argocd:init:password:
