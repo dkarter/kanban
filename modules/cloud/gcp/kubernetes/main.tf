@@ -30,6 +30,30 @@ provider "google-beta" {
   region  = local.region
 }
 
+
+# NAT router for private GKE cluster
+resource "google_compute_router" "router" {
+  name    = "nat-router"
+  region  = var.region
+  network = var.network
+}
+
+
+
+# NAT config
+resource "google_compute_router_nat" "nat" {
+  name                               = "nat-config"
+  router                             = google_compute_router.router.name
+  region                             = google_compute_router.router.region
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+
+  log_config {
+    enable = true
+    filter = "ERRORS_ONLY"
+  }
+}
+
 # GKE cluster
 resource "google_container_cluster" "primary" {
   name = local.cluster_name
@@ -42,9 +66,9 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
-  # this should be commented out after I'm done with the CREATE-DESTROY-IMPROVE
-  # cycle
-  # deletion_protection = false
+  # WARNING: Normally I would not disable deletion protection in a real
+  # production project - this is just to save costs while learning
+  deletion_protection = false
 
   network    = local.network
   subnetwork = local.subnetwork
@@ -124,4 +148,3 @@ resource "google_container_node_pool" "primary_nodes" {
     auto_upgrade = true
   }
 }
-

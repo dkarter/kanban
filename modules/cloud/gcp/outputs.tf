@@ -24,3 +24,4 @@ output "region" {
   description = "The region of the GKE cluster"
   value       = module.kanban_k8s_cluster.region
 }
+

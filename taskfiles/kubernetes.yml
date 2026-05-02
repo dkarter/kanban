@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+vars:
+  GIT_REPO: git@github.com:dkarter/kanban.git
+
+tasks:
+  argocd:port-forward:
+    summary: Port forwards localhost:8080 to ArgoCD's UI
+    cmd: kubectl port-forward -n argocd services/argocd-server 8080:80
+
+  argocd:init:
+    desc: Initializes the initial install of ArgoCD
+    cmds:
+      - cmd: kubectl get namespace argocd &>/dev/null || kubectl create namespace argocd
+      - cmd: kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+  argocd:init:login:
+    summary: Logs in the CLI through local port forward
+    cmd: |
+      argocd login \
+        localhost:8080 \
+        --insecure \
+        --username "admin" \
+        --password "$(task kube:argocd:init:password)"
+        # --port-forward 8080:80 \
+        # --port-forward-namespace argocd
+    silent: true
+
+  argocd:init:add-repo:
+    summary: Adds the github repo to argo
+    cmd: |
+      argocd repo add \
+        '{{.GIT_REPO}}' \
+        --name kanban \
+        --upsert
+        # --insecure \
+        # --port-forward 8080:80 \
+        # --port-forward-namespace argocd
+    silent: true
+
+  argocd:init:password:
+    summary: Gets the temporary initial password for ArgoCD
+    cmd: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+    silent: true
+
+  pod:watch:
+    desc: Watch pods
+    cmd: watch kubectl get pods {{.CLI_ARGS}}

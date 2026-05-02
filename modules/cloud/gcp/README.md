@@ -14,13 +14,13 @@ module "gcp" {
 
   # Required
   project_id = "your-gcp-project-id"
-  
+
   # Optional with defaults
   region          = "us-central1"
   cluster_name    = "kanban-cluster"
-  environment     = "dev"
+  environment     = "prod"
   private_cluster = true
-  machine_type    = "e2-standard-2"
+  machine_type    = "e2-small"
 }
 ```
 
@@ -48,10 +48,11 @@ Before applying this Terraform configuration:
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| cluster_id | The ID of the created GKE cluster |
-| cluster_name | The name of the created GKE cluster |
-| cluster_endpoint | The endpoint for the GKE cluster API server |
+| Name                   | Description                                     |
+| ---------------------- | ----------------------------------------------- |
+| cluster_id             | The ID of the created GKE cluster               |
+| cluster_name           | The name of the created GKE cluster             |
+| cluster_endpoint       | The endpoint for the GKE cluster API server     |
 | cluster_ca_certificate | The public certificate authority of the cluster |
-| region | The region of the GKE cluster |
+| region                 | The region of the GKE cluster                   |
+

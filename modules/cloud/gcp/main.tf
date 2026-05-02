@@ -14,6 +14,14 @@ terraform {
       source  = "hashicorp/google-beta"
       version = "~> 6.27.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.26.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12.0"
+    }
   }
 }
 
@@ -48,3 +56,19 @@ module "kanban_k8s_cluster" {
   subnetwork = var.subnetwork
 }
 
+# Configure Kubernetes provider to connect to our cluster
+data "google_client_config" "default" {}
+
+provider "kubernetes" {
+  host                   = "https://${module.kanban_k8s_cluster.cluster_endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.kanban_k8s_cluster.cluster_ca_certificate)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = "https://${module.kanban_k8s_cluster.cluster_endpoint}"
+    token                  = data.google_client_config.default.access_token
+    cluster_ca_certificate = base64decode(module.kanban_k8s_cluster.cluster_ca_certificate)
+  }
+}

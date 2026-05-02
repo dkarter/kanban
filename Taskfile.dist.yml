@@ -23,6 +23,10 @@ includes:
     aliases: [github]
     taskfile: ./taskfiles/github.yml
 
+  kube:
+    aliases: [k, kubernetes]
+    taskfile: ./taskfiles/kubernetes.yml
+
   tf:
     aliases: [terraform]
     taskfile: ./taskfiles/terraform.yml

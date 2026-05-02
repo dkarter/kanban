@@ -33,4 +33,12 @@ tasks:
 
   tf:apply:
     desc: Applies the terraform plan for GCP
+    interactive: true
     cmd: terraform apply
+
+  # normally I wouldn't want to make it easy, but for cost savings while
+  # learning, it's best to de-provision in between work sessions
+  tf:destroy:
+    desc: Destroys everything provisioned with terraform
+    interactive: true
+    cmd: terraform destroy

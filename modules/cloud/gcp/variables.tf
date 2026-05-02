@@ -62,4 +62,3 @@ variable "subnetwork" {
   type        = string
   default     = "default"
 }
-
